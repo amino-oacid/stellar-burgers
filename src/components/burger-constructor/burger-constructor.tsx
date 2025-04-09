@@ -6,11 +6,11 @@ import {
   burgerConstructorSelector,
   clearBurgerConstructor,
   clearOrderModalData,
+  isAuthSelector,
   makeOrderRequest,
   orderModalDataSelector,
   orderRequestSelector
 } from '@slices';
-import { getCookie } from '../../utils/cookie';
 import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
@@ -18,13 +18,14 @@ export const BurgerConstructor: FC = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isAuth = useSelector(isAuthSelector);
 
   const orderRequest = useSelector(orderRequestSelector);
 
   const orderModalData = useSelector(orderModalDataSelector);
 
   const onOrderClick = () => {
-    if (!getCookie('accessToken')) {
+    if (!isAuth) {
       return navigate('/login');
     }
     if (!constructorItems.bun || orderRequest) return;

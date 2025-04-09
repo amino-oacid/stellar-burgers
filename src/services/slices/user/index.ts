@@ -7,5 +7,6 @@ export {
   clearUser,
   updateUserRequest,
   userSelector,
-  autoLoginRequest
+  isAuthSelector,
+  checkUserAuth
 } from './user-slice';

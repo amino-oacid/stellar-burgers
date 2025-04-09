@@ -1,5 +1,4 @@
 import {
-  forgotPasswordApi,
   getUserApi,
   loginUserApi,
   logoutApi,
@@ -15,13 +14,15 @@ import { AppDispatch } from '../../store';
 
 type InitialStateType = {
   user: TUser;
+  isAuth: boolean;
 };
 
 const initialState: InitialStateType = {
   user: {
     email: '',
     name: ''
-  }
+  },
+  isAuth: false
 };
 
 export const registrationRequest = createAsyncThunk(
@@ -48,12 +49,12 @@ export const loginRequest = createAsyncThunk(
   }
 );
 
-export const autoLoginRequest = createAsyncThunk(
-  'user/autoLoginRequest',
+export const checkUserAuth = createAsyncThunk(
+  'user/checkUserAuth',
   async (_, thunkObject) => {
     const dispatch = thunkObject.dispatch as AppDispatch;
     const response = await getUserApi();
-    //dispatch(saveUser(response.user));
+    dispatch(saveUser(response.user));
     return response;
   }
 );
@@ -84,6 +85,7 @@ export const userSlice = createSlice({
   reducers: {
     saveUser(state, action: PayloadAction<TUser>) {
       state.user = action.payload;
+      state.isAuth = true;
     },
     clearUser(state) {
       deleteCookie('accessToken');
@@ -92,13 +94,15 @@ export const userSlice = createSlice({
         email: '',
         name: ''
       };
+      state.isAuth = false;
     }
   },
   selectors: {
-    userSelector: (state) => state.user
+    userSelector: (state) => state.user,
+    isAuthSelector: (state) => state.isAuth
   }
 });
 
 export const { saveUser, clearUser } = userSlice.actions;
-export const { userSelector } = userSlice.selectors;
+export const { userSelector, isAuthSelector } = userSlice.selectors;
 export const userReducer = userSlice.reducer;
