@@ -11,19 +11,19 @@ import {
 } from './user-slice';
 
 const mockUser: TUser = {
-  email: 'test@example.com',
-  name: 'Test User'
+  email: 'test@mail.ru',
+  name: 'test'
 };
 
 const mockRegisterData: TRegisterData = {
-  email: 'test@example.com',
-  password: 'password123',
-  name: 'Test User'
+  email: 'test@mail.ru',
+  password: '123',
+  name: 'test'
 };
 
 const mockLoginData: TLoginData = {
-  email: 'test@example.com',
-  password: 'password123'
+  email: 'test@mail.ru',
+  password: '123'
 };
 
 const mockRegisterResponse = {
@@ -53,8 +53,8 @@ const mockUserResponse = {
 const mockUpdatedUser = {
   success: true,
   user: {
-    name: 'Updated User',
-    email: 'updated@example.com'
+    name: 'updated test',
+    email: 'updated@mail.ru'
   }
 };
 

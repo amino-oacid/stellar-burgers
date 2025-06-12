@@ -13,8 +13,8 @@ const mockFeeds: TFeedsResponse = {
       ],
       status: 'done',
       name: 'Краторный люминесцентный бургер',
-      createdAt: '2024-09-02T13:46:25.234Z',
-      updatedAt: '2024-09-02T13:46:25.914Z',
+      createdAt: '2025-04-03T17:05:38.266Z',
+      updatedAt: '2025-04-05T17:51:07.566Z',
       number: 1
     },
     {
@@ -29,8 +29,8 @@ const mockFeeds: TFeedsResponse = {
       ],
       status: 'done',
       name: 'Антарианский краторный бессмертный минеральный экзо-плантаго био-марсианский бургер',
-      createdAt: '2024-09-02T07:36:55.648Z',
-      updatedAt: '2024-09-02T07:36:56.126Z',
+      createdAt: '2025-04-03T17:05:38.266Z',
+      updatedAt: '2025-04-05T17:51:07.566Z',
       number: 2
     },
     {
@@ -42,8 +42,8 @@ const mockFeeds: TFeedsResponse = {
       ],
       status: 'done',
       name: 'Краторный space бургер',
-      createdAt: '2024-09-02T07:34:44.831Z',
-      updatedAt: '2024-09-02T07:34:45.280Z',
+      createdAt: '2025-04-03T17:05:38.266Z',
+      updatedAt: '2025-04-05T17:51:07.566Z',
       number: 3
     }
   ],

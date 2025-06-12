@@ -10,9 +10,9 @@ import {
 const mockOrder: TOrder = {
   _id: '12345',
   status: 'done',
-  name: 'Test Order',
-  createdAt: '2024-09-12T00:00:00Z',
-  updatedAt: '2024-09-12T00:00:00Z',
+  name: 'test order',
+  createdAt: '2025-04-03T17:05:38.266Z',
+  updatedAt: '2025-04-05T17:51:07.566Z',
   number: 1,
   ingredients: ['643d69a5c3f7b9001cfa093c', '643d69a5c3f7b9001cfa0943']
 };
