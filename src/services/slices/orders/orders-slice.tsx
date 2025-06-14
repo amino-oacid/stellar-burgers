@@ -13,13 +13,17 @@ type InitialStateType = {
   orderModalData: TNewOrderResponse | null;
   ordersList: Array<TOrder>;
   orderDetailsData: TOrder | null;
+  loading: boolean;
+  error: string | null;
 };
 
-const initialState: InitialStateType = {
+export const initialState: InitialStateType = {
   orderRequest: false,
   orderModalData: null,
   ordersList: [],
-  orderDetailsData: null
+  orderDetailsData: null,
+  loading: false,
+  error: null
 };
 
 export const makeOrderRequest = createAsyncThunk(
@@ -83,6 +87,34 @@ export const ordersSlice = createSlice({
     orderModalDataSelector: (state) => state.orderModalData,
     ordersListSelector: (state) => state.ordersList,
     orderDetailsDataSelector: (state) => state.orderDetailsData
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getOrderRequest.pending, (state) => {
+      state.error = null;
+      state.loading = true;
+    });
+    builder.addCase(getOrderRequest.rejected, (state, action) => {
+      state.error = action.error.message as string;
+      state.loading = false;
+    });
+    builder.addCase(getOrderRequest.fulfilled, (state, action) => {
+      state.error = null;
+      state.loading = false;
+      state.orderDetailsData = action.payload.orders[0];
+    });
+    builder.addCase(fetchOrders.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchOrders.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message as string;
+    });
+    builder.addCase(fetchOrders.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.ordersList = action.payload;
+    });
   }
 });
 

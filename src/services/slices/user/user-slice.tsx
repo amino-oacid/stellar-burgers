@@ -15,14 +15,18 @@ import { AppDispatch } from '../../store';
 type InitialStateType = {
   user: TUser;
   isAuth: boolean;
+  loading: boolean;
+  error: string | null;
 };
 
-const initialState: InitialStateType = {
+export const initialState: InitialStateType = {
   user: {
     email: '',
     name: ''
   },
-  isAuth: false
+  isAuth: false,
+  loading: false,
+  error: null
 };
 
 export const registrationRequest = createAsyncThunk(
@@ -100,6 +104,92 @@ export const userSlice = createSlice({
   selectors: {
     userSelector: (state) => state.user,
     isAuthSelector: (state) => state.isAuth
+  },
+  extraReducers: (builder) => {
+    builder.addCase(registrationRequest.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.isAuth = false;
+    });
+    builder.addCase(registrationRequest.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message as string;
+      state.isAuth = false;
+    });
+    builder.addCase(registrationRequest.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.user = action.payload.user;
+      state.isAuth = true;
+    });
+
+    builder.addCase(loginRequest.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.isAuth = false;
+    });
+    builder.addCase(loginRequest.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message as string;
+      state.isAuth = false;
+    });
+    builder.addCase(loginRequest.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.user = action.payload.user;
+      state.isAuth = true;
+    });
+
+    builder.addCase(checkUserAuth.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.isAuth = false;
+    });
+    builder.addCase(checkUserAuth.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message as string;
+      state.isAuth = false;
+    });
+    builder.addCase(checkUserAuth.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.isAuth = true;
+      state.user = action.payload.user;
+    });
+
+    builder.addCase(updateUserRequest.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateUserRequest.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message as string;
+    });
+    builder.addCase(updateUserRequest.fulfilled, (state, action) => {
+      state.loading = false;
+      state.error = null;
+      state.user = action.payload.user;
+    });
+
+    builder.addCase(logoutRequest.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.isAuth = true;
+    });
+    builder.addCase(logoutRequest.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message as string;
+      state.isAuth = false;
+    });
+    builder.addCase(logoutRequest.fulfilled, (state) => {
+      state.loading = false;
+      state.error = null;
+      state.user = {
+        email: '',
+        name: ''
+      };
+      state.isAuth = false;
+    });
   }
 });
 

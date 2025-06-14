@@ -7,14 +7,20 @@ type InitialStateType = {
   buns: Array<TIngredient>;
   mains: Array<TIngredient>;
   sauces: Array<TIngredient>;
+  ingredients: Array<TIngredient>;
   ingredientDetails: TIngredient | null;
+  loading: boolean;
+  error: string | null;
 };
 
-const initialState: InitialStateType = {
+export const initialState: InitialStateType = {
   buns: [],
   mains: [],
   sauces: [],
-  ingredientDetails: null
+  ingredients: [],
+  ingredientDetails: null,
+  loading: false,
+  error: null
 };
 
 export const fetchIngredients = createAsyncThunk(
@@ -32,6 +38,7 @@ export const burgerIngredientsSlice = createSlice({
   initialState,
   reducers: {
     saveIngredients(state, action: PayloadAction<Array<TIngredient>>) {
+      state.ingredients = action.payload;
       state.buns = action.payload.filter(
         (item: TIngredient) => item.type === 'bun'
       );
@@ -59,6 +66,20 @@ export const burgerIngredientsSlice = createSlice({
     ingredientsSelector: (state) =>
       state.buns.concat(state.mains, state.sauces),
     ingredientDetailsSelector: (state) => state.ingredientDetails
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchIngredients.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchIngredients.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message as string;
+    });
+    builder.addCase(fetchIngredients.fulfilled, (state, action) => {
+      state.loading = false;
+      state.ingredients = action.payload;
+    });
   }
 });
 
